@@ -9,9 +9,7 @@ namespace Logger.Loggers
     {
 
         public Logger(params IAppender[] appenders)
-        {
-            this.Appenders = appenders;
-        }
+            => this.Appenders = appenders;
 
 
         public IAppender[] Appenders { get; set; }
@@ -33,7 +31,7 @@ namespace Logger.Loggers
 
         private void Log(ReportLevel level, string message)
         {
-            //Info > Warning > Error > Critical > Fatal
+            
             foreach (var appender in this.Appenders)
             {
                 if (level >= appender.ReportLevel)

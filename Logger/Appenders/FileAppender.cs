@@ -2,18 +2,16 @@
 {
     using System;
     using System.IO;
-    using Logger.Layouts;
-    using Logger.LogFiles;
-    using Logger.ReportLevels;
+    using Layouts;
+    using LogFiles;
+    using ReportLevels;
 
     public class FileAppender : Appender
     {
         private readonly ILogFile logFile;
         public FileAppender(ILayout layout, ILogFile logFile)
             : base(layout)
-        {
-            this.logFile = logFile;
-        }
+            => this.logFile = logFile;
 
         public override void Append(
             DateTime dateTime,
@@ -29,7 +27,12 @@
 
             this.logFile.Write(outputMessage);
 
+            this.AppendedMessages++;
+
             File.AppendAllText("../../../log.txt", outputMessage);
         }
+
+        public override string ToString()
+         => base.ToString() + $", File size: {this.logFile.Size}";
     }
 }

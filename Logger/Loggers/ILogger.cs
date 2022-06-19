@@ -11,5 +11,10 @@ namespace Logger.Loggers
         void Warning(string message);
 
         void Error(string message);
+
+        void Critical(string message);
+
+        void Fatal(string message);
+
     }
 }

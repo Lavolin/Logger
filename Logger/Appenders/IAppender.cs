@@ -10,6 +10,8 @@
 
         ReportLevel ReportLevel { get; set; }
 
+        int AppendedMessages { get; }
+
         void Append(
             DateTime dateTime,
             ReportLevel reportLevel, // why not Enum

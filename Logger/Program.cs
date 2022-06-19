@@ -1,42 +1,84 @@
 ﻿namespace Logger
 {
     using System;
-    using Logger.Appenders;
-    using Logger.Layouts;
-    using Logger.LogFiles;
-    using Logger.Loggers;
-    using Logger.ReportLevels;
+    using System.Collections.Generic;
+    using Appenders;
+    using Layouts;
+    using LogFiles;
+    using Logger.Factories;
+    using Loggers;
+    using ReportLevels;
 
     public class Program
     {
         public static void Main(string[] args)
         {
-            //ILayout simpleLayout = new XmlLayout(); // XML Layout
+            
 
-            ////Console.WriteLine(string.Format(simpleLayout.Format, "12", "23", "34" )); //check
+            int appendersLines = int.Parse(Console.ReadLine());
 
-            //IAppender consoleAppender = new ConsoleAppender(simpleLayout); // Console, file
+            List<IAppender> appenders = new List<IAppender>();
 
-            ////consoleAppender.Append(DateTime.Now, "Error", "Hello there"); // check
+            for (int i = 0; i < appendersLines; i++)
+            {
+                string[] appenderType = Console.ReadLine().Split();
 
-            //ILogger logger = new Logger(consoleAppender); // Error, info
+                string type = appenderType[0];
+                string layoutType = appenderType[1];
 
-            //logger.Error("Error parsing JSON.");
-            //logger.Info("User Pesho successfully registered.");
+                ReportLevel reportLevel = appenderType.Length == 3
+                    ? Enum.Parse<ReportLevel>(appenderType[2], true)
+                    : ReportLevel.Info;
 
+               
+                ILayout layout = LayoutFactory.CreateLayout(layoutType);
+                
+                IAppender appender = AppenderFactory.CreateAppender(type, layout);
 
+                 appenders.Add(appender);              
+            }
 
-            ILayout simpleLayout = new XmlLayout();
-            IAppender consoleAppender = new ConsoleAppender(simpleLayout);
-            consoleAppender.ReportLevel = ReportLevel.Info;
+            ILogger logger = new Logger(appenders.ToArray());
 
-            ILogFile file = new LogFile();
-            IAppender fileAppender = new FileAppender(simpleLayout, file);
+            string command = Console.ReadLine();
+            //<REPORT LEVEL>|<time>|<message>"
 
-            var logger = new Logger(consoleAppender, fileAppender);
-            logger.Error("Error parsing JSON.");
-            logger.Info("User Pesho successfully registered.");
+            while (command != "END")
+            {
+                string[] messageInfo = command.Split('|');
 
+                ReportLevel reportLevel = Enum.Parse<ReportLevel>(messageInfo[0], true);
+                //DateTime dateTime = DateTime.Parse(messageInfo[1]);
+                string message = messageInfo[2];
+                
+                switch (reportLevel)
+                {
+                    case ReportLevel.Fatal:
+                        logger.Fatal(message);
+                        break;
+                    case ReportLevel.Critical:
+                        logger.Critical(message);
+                        break;
+                    case ReportLevel.Error:
+                        logger.Error(message);
+                        break;
+                    case ReportLevel.Warning:
+                        logger.Warning(message);
+                        break;
+                    default:
+                        logger.Info(message);
+                        break;
+                }
+
+                command = Console.ReadLine();
+            }
+
+            Console.WriteLine("Logger info");
+
+            foreach (var appender in logger.Appenders)
+            {
+                Console.WriteLine(appender);
+            }
         }
     }
 }
