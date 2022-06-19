@@ -1,20 +1,26 @@
 ﻿namespace Logger
 {
-    using Logger.Layouts;
     using System;
+    using Logger.Appenders;
+    using Logger.Layouts;
+    using Logger.Loggers;
+
     public class Program
     {
         public static void Main(string[] args)
         {
             ILayout simpleLayout = new SimpleLayout(); // XML Layout
 
-            //Console.WriteLine(string.Format(simpleLayout.Format, "12", "23", "34" ));
+            //Console.WriteLine(string.Format(simpleLayout.Format, "12", "23", "34" )); //check
 
             IAppender consoleAppender = new ConsoleAppender(simpleLayout); // Console, file
-            //ILogger logger = new Logger(consoleAppender); / Error, info
 
-            //logger.Error("3/26/2015 2:08:11 PM", "Error parsing JSON.");
-            //logger.Info("3/26/2015 2:08:11 PM", "User Pesho successfully registered.");
+            //consoleAppender.Append(DateTime.Now, "Error", "Hello there"); // check
+
+            ILogger logger = new Logger(consoleAppender); // Error, info
+
+            logger.Error("Error parsing JSON.");
+            logger.Info("User Pesho successfully registered.");
 
 
 
