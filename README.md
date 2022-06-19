@@ -1,6 +1,6 @@
 # Logger
 C# OOP SOLID course example
-Logger logs data and time (string) and a message (string).
+# Logger logs data and time (string) and a message (string).
 Library Architecture
 The library should have the following components:
 •	Layouts - define the format in which messages should be appended (e.g. SimpleLayout displays logs in the format "<date-time> - <report level> - <message>")
