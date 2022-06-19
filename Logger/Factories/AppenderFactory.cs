@@ -19,7 +19,7 @@ namespace Logger.Factories
             IAppender appender =  type switch
             {
                 "ConsoleAppender" => new ConsoleAppender(layout),
-                "FileAppender" => new FileAppender(layout, new LogFile()),
+                "FileAppender" => new FileAppender(layout, new LogFile(), "../../../log.txt"),
                 _ => throw new ArgumentException("Missing type")
             };
 

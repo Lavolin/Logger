@@ -22,6 +22,7 @@
             ReportLevel reportLevel,
             string message);
 
+        
         public override string ToString()
          => $"Appender type: {this.GetType().Name}, Layout type: {this.Layout.GetType().Name}, Report level: {this.ReportLevel}, Messages appended: {this.AppendedMessages}";
     }

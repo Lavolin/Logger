@@ -9,27 +9,35 @@
     public class FileAppender : Appender
     {
         private readonly ILogFile logFile;
-        public FileAppender(ILayout layout, ILogFile logFile)
+        private readonly string path;
+        public FileAppender(
+            ILayout layout, 
+            ILogFile logFile, 
+            string path)
             : base(layout)
-            => this.logFile = logFile;
-
+        {
+            this.logFile = logFile;
+            this.path = path;
+        }
         public override void Append(
             DateTime dateTime,
             ReportLevel reportLevel, 
             string message)
         {
             string outputMessage = string.Format(
-                this.Layout.Format, 
+                this.Layout.Format,
                 dateTime,
-                reportLevel, 
-                message) 
-                +Environment.NewLine;
+                reportLevel,
+                message); 
+                
 
             this.logFile.Write(outputMessage);
 
             this.AppendedMessages++;
 
-            File.AppendAllText("../../../log.txt", outputMessage);
+            File.AppendAllText(path, 
+                outputMessage
+                +Environment.NewLine);
         }
 
         public override string ToString()

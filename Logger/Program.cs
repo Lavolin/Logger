@@ -33,7 +33,7 @@
                
                 ILayout layout = LayoutFactory.CreateLayout(layoutType);
                 
-                IAppender appender = AppenderFactory.CreateAppender(type, layout);
+                IAppender appender = AppenderFactory.CreateAppender(type, layout, reportLevel);
 
                  appenders.Add(appender);              
             }
@@ -41,8 +41,7 @@
             ILogger logger = new Logger(appenders.ToArray());
 
             string command = Console.ReadLine();
-            //<REPORT LEVEL>|<time>|<message>"
-
+            
             while (command != "END")
             {
                 string[] messageInfo = command.Split('|');
