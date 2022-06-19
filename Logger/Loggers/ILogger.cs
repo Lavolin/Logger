@@ -4,7 +4,7 @@ namespace Logger.Loggers
     using Appenders;
     public interface ILogger
     {
-        IAppender Appender { get; }
+        IAppender[] Appenders { get; }
 
         void Info(string message);
 

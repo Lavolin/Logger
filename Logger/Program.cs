@@ -3,36 +3,39 @@
     using System;
     using Logger.Appenders;
     using Logger.Layouts;
+    using Logger.LogFiles;
     using Logger.Loggers;
+    using Logger.ReportLevels;
 
     public class Program
     {
         public static void Main(string[] args)
         {
-            ILayout simpleLayout = new SimpleLayout(); // XML Layout
+            //ILayout simpleLayout = new XmlLayout(); // XML Layout
 
-            //Console.WriteLine(string.Format(simpleLayout.Format, "12", "23", "34" )); //check
+            ////Console.WriteLine(string.Format(simpleLayout.Format, "12", "23", "34" )); //check
 
-            IAppender consoleAppender = new ConsoleAppender(simpleLayout); // Console, file
+            //IAppender consoleAppender = new ConsoleAppender(simpleLayout); // Console, file
 
-            //consoleAppender.Append(DateTime.Now, "Error", "Hello there"); // check
+            ////consoleAppender.Append(DateTime.Now, "Error", "Hello there"); // check
 
-            ILogger logger = new Logger(consoleAppender); // Error, info
+            //ILogger logger = new Logger(consoleAppender); // Error, info
 
+            //logger.Error("Error parsing JSON.");
+            //logger.Info("User Pesho successfully registered.");
+
+
+
+            ILayout simpleLayout = new XmlLayout();
+            IAppender consoleAppender = new ConsoleAppender(simpleLayout);
+            consoleAppender.ReportLevel = ReportLevel.Info;
+
+            ILogFile file = new LogFile();
+            IAppender fileAppender = new FileAppender(simpleLayout, file);
+
+            var logger = new Logger(consoleAppender, fileAppender);
             logger.Error("Error parsing JSON.");
             logger.Info("User Pesho successfully registered.");
-
-
-
-            //var simpleLayout = new SimpleLayout();
-            //var consoleAppender = new ConsoleAppender(simpleLayout);
-
-            //var file = new LogFile();
-            //var fileAppender = new FileAppender(simpleLayout, file);
-
-            //var logger = new Logger(consoleAppender, fileAppender);
-            //logger.Error("3/26/2015 2:08:11 PM", "Error parsing JSON.");
-            //logger.Info("3/26/2015 2:08:11 PM", "User Pesho successfully registered.");
 
         }
     }

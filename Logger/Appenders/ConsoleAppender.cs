@@ -1,4 +1,5 @@
 ﻿using Logger.Layouts;
+using Logger.ReportLevels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,15 +14,15 @@ namespace Logger.Appenders
         }
 
         public override void Append(
-            DateTime dateTime, 
-            string errorLevel, 
+            DateTime dateTime,
+            ReportLevel reportLevel, 
             string message)
         {
 
             string output = string.Format(
                 this.Layout.Format,
-                dateTime, 
-                errorLevel, 
+                dateTime,
+                reportLevel, 
                 message);
 
             Console.WriteLine(output);

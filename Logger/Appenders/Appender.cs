@@ -2,6 +2,8 @@
 {
     using System;
     using Logger.Layouts;
+    using Logger.ReportLevels;
+
     public abstract class Appender : IAppender
     {
         public Appender(ILayout layout)
@@ -11,9 +13,11 @@
 
         public ILayout Layout { get; }
 
+        public ReportLevel ReportLevel { get; set; }
+
         public abstract void Append(
             DateTime dateTime,
-            string errorLevel,
+            ReportLevel reportLevel,
             string message);
         
     }
